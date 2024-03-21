@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <TextView
+            android:id="@+id/actions_header_layout_shutter_time_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginStart="55dp"
+            android:text="@string/shutter_time"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/actions_header_layout_motor_time_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="60dp"
+            android:layout_toEndOf="@id/actions_header_layout_shutter_time_textview"
+            android:layout_marginStart="30dp"
+            android:text="@string/motor_time"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/actions_header_layout_excess_time_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="105dp"
+            android:layout_marginStart="55dp"
+            android:text="@string/excess_option_set"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/actions_header_layout_zoom_current_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="105dp"
+            android:layout_toEndOf="@id/actions_header_layout_excess_time_textview"
+            android:layout_marginStart="30dp"
+            android:text="@string/zoom_current"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/actions_header_layout_zoom_range_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="150dp"
+            android:layout_marginStart="55dp"
+            android:text="@string/zoom_range"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/actions_header_layout_focus_current_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="150dp"
+            android:layout_toEndOf="@id/actions_header_layout_zoom_range_textview"
+            android:layout_marginStart="30dp"
+            android:text="@string/focus_current"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/actions_header_layout_focus_range_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="195dp"
+            android:layout_marginStart="55dp"
+            android:text="@string/focus_range"
+            android:textSize="14sp" />
+</RelativeLayout>
+
+<!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+
+<!--    <TextView-->
+<!--        android:id="@+id/actions_header_layout_shutter_time_textview"-->
+<!--        android:layout_width="133dp"-->
+<!--        android:layout_height="35dp"-->
+<!--        android:layout_marginTop="56dp"-->
+<!--        android:text="@string/shutter_time"-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.154"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/actions_header_layout_motor_time_textview"-->
+<!--        android:layout_width="133dp"-->
+<!--        android:layout_height="32dp"-->
+<!--        android:layout_marginTop="56dp"-->
+<!--        android:text="@string/motor_time"-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.812"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/actions_header_layout_excess_time_textview"-->
+<!--        android:layout_width="208dp"-->
+<!--        android:layout_height="31dp"-->
+<!--        android:layout_marginTop="104dp"-->
+<!--        android:text="@string/excess_option_set"-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.211"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/actions_header_layout_zoom_current_textview"-->
+<!--        android:layout_width="133dp"-->
+<!--        android:layout_height="35dp"-->
+<!--        android:layout_marginTop="148dp"-->
+<!--        android:text="@string/zoom_current"-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.154"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/actions_header_layout_zoom_range_textview"-->
+<!--        android:layout_width="133dp"-->
+<!--        android:layout_height="32dp"-->
+<!--        android:layout_marginTop="148dp"-->
+<!--        android:text="@string/zoom_range"-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.812"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/actions_header_layout_focus_current_textview"-->
+<!--        android:layout_width="130dp"-->
+<!--        android:layout_height="37dp"-->
+<!--        android:layout_marginTop="196dp"-->
+<!--        android:text="@string/focus_current"-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.153"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/actions_header_layout_focus_range_textview"-->
+<!--        android:layout_width="134dp"-->
+<!--        android:layout_height="36dp"-->
+<!--        android:layout_marginTop="196dp"-->
+<!--        android:text="@string/focus_range"-->
+<!--        android:textSize="14sp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.812"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+
+<!--</androidx.constraintlayout.widget.ConstraintLayout>-->

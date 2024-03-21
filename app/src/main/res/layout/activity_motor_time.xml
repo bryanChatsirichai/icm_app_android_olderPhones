@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/motor_time_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:text="|- Motor Time(s) -|"
+        />
+    <TextView
+        android:id="@+id/current_motor_time_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/motor_time_bar"
+        android:layout_below="@id/motor_time_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="85dp"
+        android:layout_marginStart="20dp"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/max_motor_time_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/motor_time_bar"
+        android:layout_below="@id/motor_time_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="Max(sec):"
+        />
+    <ProgressBar
+        android:id="@+id/motor_time_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_below="@id/motor_time_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_width="188dp"
+        android:layout_height="93dp"
+        android:progress="0"
+        android:max="60" />
+
+    <Button
+        android:id="@+id/motor_time_decrease_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/motor_time_bar"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="100dp"
+        android:text="Decrease" />
+
+    <Button
+        android:id="@+id/motor_time_increase_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/motor_time_bar"
+        android:layout_marginTop="100dp"
+        android:layout_toEndOf="@id/motor_time_decrease_button"
+        android:layout_marginStart="5dp"
+        android:text="Increase"
+        />
+
+    <Button
+        android:id="@+id/motor_time_set_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:layout_below="@id/motor_time_increase_button"
+        android:text="Set"
+        />
+</RelativeLayout>

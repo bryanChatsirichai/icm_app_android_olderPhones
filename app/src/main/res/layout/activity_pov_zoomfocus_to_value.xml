@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/pov_zoomfocus_to_value_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:text="|- Adjust Zoom Pov-|" />
+
+    <TextView
+        android:id="@+id/pov_zoomfocus_value_current_step_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@id/pov_zoomfocus_to_value_bar"
+        android:layout_below="@id/pov_zoomfocus_to_value_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="85dp"
+        android:layout_marginStart="20dp"
+        android:text="0" />
+
+    <TextView
+        android:id="@+id/pov_zoomfocus_to_value_max_range_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@id/pov_zoomfocus_to_value_bar"
+        android:layout_below="@id/pov_zoomfocus_to_value_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="20dp"
+        android:text="1 Rotation x steps" />
+
+    <ProgressBar
+        android:id="@+id/pov_zoomfocus_to_value_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_below="@id/pov_zoomfocus_to_value_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:layout_width="188dp"
+        android:layout_height="93dp"
+        android:progress="0"
+        android:max="200" />
+
+
+
+    <Button
+        android:id="@+id/pov_zoomfocus_to_value_decrease_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pov_zoomfocus_to_value_bar"
+        android:layout_marginStart="80dp"
+        android:layout_marginTop="100dp"
+        android:text="Decrease" />
+
+    <Button
+        android:id="@+id/pov_zoomfocus_to_value_increase_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/pov_zoomfocus_to_value_bar"
+        android:layout_marginTop="100dp"
+        android:layout_toEndOf="@id/pov_zoomfocus_to_value_decrease_button"
+        android:layout_marginStart="5dp"
+        android:text="Increase" />
+
+
+
+    <TextView
+        android:id="@+id/pov_zoomfocus_to_value_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set to minimum / maximum"
+        android:layout_below="@+id/pov_zoomfocus_to_value_bar"
+        android:layout_marginStart="20dp"
+        />
+
+    <Button
+        android:id="@+id/pov_zoomfocus_to_value_set_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:layout_below="@id/pov_zoomfocus_to_value_increase_button"
+        android:text="Set" />
+
+
+</RelativeLayout>
+
+

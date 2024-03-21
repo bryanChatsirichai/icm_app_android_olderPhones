@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <TextView
+            android:id="@+id/options_header_layout_backCamera_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginStart="55dp"
+            android:text="@string/back_camera"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/options_header_layout_frontCamera_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="60dp"
+            android:layout_toEndOf="@id/options_header_layout_backCamera_textview"
+            android:layout_marginStart="30dp"
+            android:text="@string/front_camera"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/options_header_layout_backCamera_rotation_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="105dp"
+            android:layout_marginStart="55dp"
+            android:text="@string/back_camera_rotation"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/options_header_layout_frontCamera_rotation_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="105dp"
+            android:layout_toEndOf="@id/options_header_layout_backCamera_rotation_textview"
+            android:layout_marginStart="30dp"
+            android:text="@string/front_camera_rotation"
+            android:textSize="14sp" />
+</RelativeLayout>

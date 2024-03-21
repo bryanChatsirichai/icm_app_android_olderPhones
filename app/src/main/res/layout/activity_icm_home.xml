@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <TextView
+            android:id="@+id/home_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="180dp"
+            android:text="Home Menu" />
+
+
+        <Button
+            android:id="@+id/camera_config_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/home_header"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="Camera Config" />
+
+        <Button
+            android:id="@+id/camera_simple_actions_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/camera_config_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="Simple Actions" />
+
+        <Button
+            android:id="@+id/camera_preset_actions_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/camera_simple_actions_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="Preset Actions" />
+
+
+<!--        <TextView-->
+<!--            android:id="@+id/action_textview"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="TextView"-->
+<!--            app:layout_constraintBottom_toBottomOf="parent"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintHorizontal_bias="0.498"-->
+<!--            app:layout_constraintStart_toStartOf="parent"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintVertical_bias="0.699" />-->
+
+        <Button
+            android:id="@+id/sync_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/camera_preset_actions_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="Sync" />
+
+</RelativeLayout>

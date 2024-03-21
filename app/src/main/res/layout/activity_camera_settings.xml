@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <include layout="@layout/settings_header_layout"/>
+        <TextView
+            android:id="@+id/camera_setting_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="180dp"
+            android:text="|- Camera Settings -|"
+         />
+        <Button
+            android:id="@+id/shutter_time_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/camera_setting_header"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="1-Shutter Time"
+         />
+
+        <Button
+            android:id="@+id/motor_time_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/shutter_time_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="2-Motor Time"
+            />
+
+        <Button
+            android:id="@+id/excess_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/motor_time_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:text="3-Excess"
+            />
+
+</RelativeLayout>

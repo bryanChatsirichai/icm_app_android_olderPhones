@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:id="@+id/excess_time_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:text="|- Excess -|" />
+
+    <Button
+        android:id="@+id/excess_time_pre_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/excess_time_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Pre" />
+
+    <Button
+        android:id="@+id/excess_time_split_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/excess_time_pre_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Split" />
+
+    <Button
+        android:id="@+id/excess_time_After_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/excess_time_split_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="After" />
+
+</RelativeLayout>

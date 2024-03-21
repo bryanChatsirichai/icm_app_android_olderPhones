@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+        <TextView
+            android:id="@+id/setting_header_layout_shutter_time_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginStart="55dp"
+            android:text="@string/shutter_time"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/setting_header_layout_motor_time_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="60dp"
+            android:layout_toEndOf="@id/setting_header_layout_shutter_time_textview"
+            android:layout_marginStart="30dp"
+            android:text="@string/motor_time"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/setting_header_layout_excess_time_textview"
+            android:layout_width="133dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="105dp"
+            android:layout_marginStart="55dp"
+            android:text="@string/excess_option_set"
+            android:textSize="14sp"/>
+</RelativeLayout>

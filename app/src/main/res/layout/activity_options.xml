@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <include layout="@layout/options_header_layout"/>
+
+    <TextView
+        android:id="@+id/options_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="180dp"
+        android:text="|- Options -|" />
+
+    <Button
+        android:id="@+id/options_switch_zf_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/options_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Switch Zoom / Focus" />
+
+    <Button
+        android:id="@+id/options_rotation_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/options_switch_zf_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="Rotation" />
+
+    <Button
+        android:id="@+id/options_reset_camera_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/options_rotation_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="RESET Camera" />
+
+    <Button
+        android:id="@+id/options_reset_motor_Calibration_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/options_reset_camera_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="RESET Motor Calibration" />
+
+
+</RelativeLayout>
