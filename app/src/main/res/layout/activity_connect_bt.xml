@@ -8,6 +8,32 @@
     android:padding="10dp"
     tools:context=".ConnectBT">
 
+    <!-- Overlay to darken screen -->
+    <View
+        android:id="@+id/overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="visible"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <!-- Progress Bar -->
+    <ProgressBar
+        android:id="@+id/connectingBtProgressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="93dp"
+        android:layout_height="96dp"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
         android:id="@+id/tableLayout"
@@ -109,6 +135,7 @@
         </TableRow>
     </TableLayout>
 
+
     <TableLayout
         android:id="@+id/list"
         android:layout_width="match_parent"
@@ -156,13 +183,11 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <ListView
                 android:id="@+id/pairedDeviceLV"
                 android:layout_width="0dp"
@@ -182,9 +207,10 @@
                 android:background="@color/white"
                 android:listSelector="#bcbcbc"
                 tools:ignore="MissingConstraints">
-
             </ListView>
+
         </TableRow>
+
 
 
     </TableLayout>

@@ -1,6 +1,7 @@
 package com.example.icm_base_mdp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,6 +62,8 @@ public class ConnectBT extends AppCompatActivity {
     TextView pairedDeviceTV;
     ProgressDialog progressDialog;
     Intent strtconnectServiceIntent;
+    ProgressBar connectingBtProgressBar;
+    View overlay;
 
     // UUID
     private static final UUID mdpUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -68,6 +72,7 @@ public class ConnectBT extends AppCompatActivity {
         return btDevice;
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +84,11 @@ public class ConnectBT extends AppCompatActivity {
         pairedDevicesLV = findViewById(R.id.pairedDeviceLV);
         searchStatusTV = findViewById(R.id.searchStatID);
         pairedDeviceTV = findViewById(R.id.pairedDeviceTV);
+        connectingBtProgressBar = findViewById(R.id.connectingBtProgressBar);
+        connectingBtProgressBar.setVisibility(View.INVISIBLE);
+        overlay = findViewById(R.id.overlay);
+        overlay.setVisibility(View.INVISIBLE);
+
         incomingMessageSB = new StringBuilder();
         btDevice = null;
 
@@ -176,6 +186,10 @@ public class ConnectBT extends AppCompatActivity {
 
         discoverBTN.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                connectingBtProgressBar.setVisibility(View.VISIBLE);
+                connectingBtProgressBar.bringToFront();
+                overlay.setVisibility(View.VISIBLE);
+                overlay.bringToFront();
                 enableBT();
                 bluetoothDevicesArrayList.clear();
             }
@@ -332,9 +346,11 @@ Broadcast Receiver to enable discovery of devices
     BroadcastReceiver btConnectionStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            connectingBtProgressBar.setVisibility(View.INVISIBLE);
+            overlay.setVisibility(View.INVISIBLE);
+
 
             Log.d(TAG, "Receiving btConnectionStatus Msg!!!");
-
             String connectionStatus = intent.getStringExtra("ConnectionStatus");
             btConnectToDevice = intent.getParcelableExtra("Device");
 
