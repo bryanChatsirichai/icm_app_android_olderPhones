@@ -133,7 +133,7 @@ public class ConnectBT extends AppCompatActivity {
                         searchStatusTV.setText("");
 
                         Log.d(TAG, "Paired Device = " + pairedBluetoothDevicesArrayList.get(i).getName());
-                        Log.d(TAG, "DeviceAddress = " + pairedBluetoothDevicesArrayList.get(i).getAddress());
+                        //Log.d(TAG, "DeviceAddress = " + pairedBluetoothDevicesArrayList.get(i).getAddress());
 
                     }
                 }
@@ -150,14 +150,14 @@ public class ConnectBT extends AppCompatActivity {
                         Log.d(TAG, "onItemClick: Item Selected");
 
                         String deviceName = bluetoothDevicesArrayList.get(i).getName();
-                        String deviceAddress = bluetoothDevicesArrayList.get(i).getAddress();
+                        //String deviceAddress = bluetoothDevicesArrayList.get(i).getAddress();
 
                         //UnSelect Paired Device List
                         pairedDevicesLV.setAdapter(pairedDeviceListAdapter);
 
 
                         Log.d(TAG, "Device Name = " + deviceName);
-                        Log.d(TAG, "Device Address = " + deviceAddress);
+                        //Log.d(TAG, "Device Address = " + deviceAddress);
 
                         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
                             Log.d(TAG, "Trying to pair with: " + deviceName);
@@ -255,14 +255,20 @@ Broadcast Receiver to enable discovery of devices
                     case BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE:
                         Log.d(TAG, "OnReceiver: DISCOVERABILITY ENABLED");
 
+                        //check paired have pico connection before
+//                        if(connectPairedDevice()){
+//                            return;
+//                        }
+
                         // start discover devices
                         startDiscover();
 
-                        // Start bluetooth connection service -> start accept thread for coonection
+                        // Start bluetooth connection service -> start accept thread for connection
                         strtconnectServiceIntent = new Intent(ConnectBT.this, BTConnectionService.class);
                         strtconnectServiceIntent.putExtra("serviceType", "listen");
                         startService(strtconnectServiceIntent);
 
+                        //original
                         chkPairedDevice();
                         break;
 
@@ -368,7 +374,6 @@ Broadcast Receiver to enable discovery of devices
             //SUCCESSFULLY CONNECTED TO BLUETOOTH DEVICE
             else if (connectionStatus.equals("connect")) {
 
-
                 Log.d("ConnectAcitvity:", "Device Connected");
                 Toast.makeText(ConnectBT.this, "Connected to " + btConnectToDevice.getName(),
                         Toast.LENGTH_SHORT).show();
@@ -402,9 +407,50 @@ Broadcast Receiver to enable discovery of devices
                         bluetoothDevicesArrayList.add(device);
                     }
                 }
+
+
+
                 Log.d(TAG, "OnReceive: " + device.getName() + ": " + device.getAddress());
                 deviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, bluetoothDevicesArrayList);
                 newDevicesLV.setAdapter(deviceListAdapter);
+
+
+
+                //discovered picoW
+                if(device.getName()!= null && device.getName().contains("PicoW")){
+                    Toast.makeText(ConnectBT.this, "PicoW found: " + device.getName(),
+                            Toast.LENGTH_SHORT).show();
+
+                    //not first time
+                    if(pairedBluetoothDevicesArrayList.contains(device)){
+                        Toast.makeText(ConnectBT.this, "PicoW connected before: " + device.getName(),
+                                Toast.LENGTH_SHORT).show();
+
+                        btDevice = device;
+                        startBTConnection(btDevice, mdpUUID);
+                    }
+                    else{
+                        //first time
+                        //CANCEL DEVICE SEARCH DISCOVERY
+                        Toast.makeText(ConnectBT.this, "PicoW connected first time: " + device.getName(),
+                                Toast.LENGTH_SHORT).show();
+                        btAdapter.cancelDiscovery();
+
+                        String deviceName = device.getName() ;
+                        //String deviceAddress = bluetoothDevicesArrayList.get(i).getAddress();
+                        //UnSelect Paired Device List
+                        pairedDevicesLV.setAdapter(pairedDeviceListAdapter);
+
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                            Log.d(TAG, "Trying to pair with: " + deviceName);
+
+                            // create bond
+                            device.createBond();
+
+                        }
+                    }
+
+                }
 
             }
         }
@@ -432,8 +478,9 @@ Broadcast Receiver to enable discovery of devices
                     Toast.makeText(ConnectBT.this, "Bonded successfully with: " + device.getName(),
                             Toast.LENGTH_SHORT).show();
                     btDevice = device;
-                    chkPairedDevice();
-                    newDevicesLV.setAdapter(deviceListAdapter);
+                    startBTConnection(btDevice, mdpUUID);
+                    //chkPairedDevice();
+                    //newDevicesLV.setAdapter(deviceListAdapter);
 
                 }
                 // bond w device
@@ -591,14 +638,12 @@ Broadcast Receiver to enable discovery of devices
 
     }
 
-
     public void chkPairedDevice() {
 
         Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
         pairedBluetoothDevicesArrayList.clear();
 
         if (pairedDevices.size() > 0) {
-
             for (BluetoothDevice device : pairedDevices) {
                 Log.d(TAG, "Paired devices: " + device.getName() + "," + device.getAddress());
                 pairedBluetoothDevicesArrayList.add(device);

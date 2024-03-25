@@ -31,14 +31,14 @@ public class DeviceListAdapter extends ArrayAdapter<BluetoothDevice> {
 
         if (device != null) {
             TextView deviceName = (TextView) convertView.findViewById(R.id.TVdeviceName);
-            TextView deviceAddr = (TextView) convertView.findViewById(R.id.TVdeviceAddr);
+            //TextView deviceAddr = (TextView) convertView.findViewById(R.id.TVdeviceAddr);
 
             if (deviceName != null) {
                 deviceName.setText(device.getName());
             }
-            if (deviceAddr != null) {
-                deviceAddr.setText(device.getAddress());
-                // Get the device UUIDs
+//            if (deviceAddr != null) {
+//                deviceAddr.setText(device.getAddress());
+//                // Get the device UUIDs
 //                if (device.getUuids() != null) {
 //                    String uuidString = "";
 //                    for (android.os.ParcelUuid uuid : device.getUuids()) {
@@ -49,8 +49,8 @@ public class DeviceListAdapter extends ArrayAdapter<BluetoothDevice> {
 //                    }
 //                    deviceAddr.setText(uuidString);
 //                }
-
-            }
+//
+//            }
         }
 
         return convertView;
