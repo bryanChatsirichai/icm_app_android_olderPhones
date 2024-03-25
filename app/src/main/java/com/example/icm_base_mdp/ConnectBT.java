@@ -31,6 +31,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -64,6 +66,7 @@ public class ConnectBT extends AppCompatActivity {
     Intent strtconnectServiceIntent;
     ProgressBar connectingBtProgressBar;
     View overlay;
+    MyGlobals myGlobals;
 
     // UUID
     private static final UUID mdpUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -77,6 +80,7 @@ public class ConnectBT extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_bt);
+        myGlobals = MyGlobals.getInstance();
 
         connectBTN = findViewById(R.id.btnConnect);
         discoverBTN = findViewById(R.id.btnStartDiscover);
@@ -126,6 +130,7 @@ public class ConnectBT extends AppCompatActivity {
 
         // Register receiver for incoming message
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
+
 
         pairedDevicesLV.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
@@ -389,11 +394,15 @@ Broadcast Receiver to enable discovery of devices
 
             //SUCCESSFULLY CONNECTED TO BLUETOOTH DEVICE
             else if (connectionStatus.equals("connect")) {
-
                 Log.d("ConnectAcitvity:", "Device Connected");
                 Toast.makeText(ConnectBT.this, "Connected to " + btConnectToDevice.getName(),
                         Toast.LENGTH_SHORT).show();
                 pairedDeviceTV.setText(btConnectToDevice.getName());
+
+                //sync device values app and picoW
+                String str = "syncDevices";
+                BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+
             }
 
             //BLUETOOTH CONNECTION FAILED
@@ -423,7 +432,6 @@ Broadcast Receiver to enable discovery of devices
                         bluetoothDevicesArrayList.add(device);
                     }
                 }
-
 
 
                 Log.d(TAG, "OnReceive: " + device.getName() + ": " + device.getAddress());
@@ -478,6 +486,8 @@ Broadcast Receiver to enable discovery of devices
     */
     private final BroadcastReceiver bondBroadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
+            connectingBtProgressBar.setVisibility(View.INVISIBLE);
+            overlay.setVisibility(View.INVISIBLE);
             final String action = intent.getAction();
 
             if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
@@ -540,20 +550,33 @@ Broadcast Receiver to enable discovery of devices
     BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             Log.d(TAG, "Receiving Msg...");
-            try{
-                String msg = intent.getStringExtra("receivingMsg");
-                incomingMessageSB.append(msg + "\n");
-                //incomingMessageTV.setText(incomingMessageSB);
-                Toast.makeText(ConnectBT.this, msg,
-                        Toast.LENGTH_SHORT).show();
-            }
-            catch (Exception e){
-                Toast.makeText(ConnectBT.this, "Test connection failed.",
-                        Toast.LENGTH_SHORT).show();
-            }
+            //depending on the message, decode action an values to do
+            String pico_message = intent.getStringExtra("receivingMsg");
+            assert pico_message != null;
+            List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
+            String functionName = pico_message_parts_array.get(0);
+            // dummy action to test message send and reply
+            if(Objects.equals(functionName, "Action1")){
+                //... testing logic
 
+            } else if (Objects.equals(functionName, "syncDevices")) {
+                myGlobals.focus_range = Integer.parseInt(pico_message_parts_array.get(1));
+                myGlobals.zoom_range = Integer.parseInt(pico_message_parts_array.get(2));
+                myGlobals.focus_current = Integer.parseInt(pico_message_parts_array.get(3));
+                myGlobals.zoom_current = Integer.parseInt(pico_message_parts_array.get(4));
+                myGlobals.orientation = Integer.parseInt(pico_message_parts_array.get(5));
+                myGlobals.shutter_time =  Integer.parseInt(pico_message_parts_array.get(6));
+                myGlobals.max_shutter_time =  Integer.parseInt(pico_message_parts_array.get(7));
+                myGlobals.motor_time =  Integer.parseInt(pico_message_parts_array.get(8));
+                myGlobals.max_motor_time =  Integer.parseInt(pico_message_parts_array.get(9));
+                myGlobals.excess_option_set =  Integer.parseInt(pico_message_parts_array.get(10));
+                myGlobals.rear_rotation_direction = Integer.parseInt(pico_message_parts_array.get(11));
+                myGlobals.front_rotation_direction =  Integer.parseInt(pico_message_parts_array.get(12));
+                myGlobals.MOTOR_STEPS = Integer.parseInt(pico_message_parts_array.get(13));
+                Toast.makeText(ConnectBT.this, "Synced Successful!-auto",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
