@@ -1,6 +1,7 @@
 package com.example.icm_base_mdp;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -19,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +31,8 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -60,6 +64,9 @@ public class ConnectBT extends AppCompatActivity {
     TextView pairedDeviceTV;
     ProgressDialog progressDialog;
     Intent strtconnectServiceIntent;
+    ProgressBar connectingBtProgressBar;
+    View overlay;
+    MyGlobals myGlobals;
 
     // UUID
     private static final UUID mdpUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -68,10 +75,12 @@ public class ConnectBT extends AppCompatActivity {
         return btDevice;
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_connect_bt);
+        myGlobals = MyGlobals.getInstance();
 
         connectBTN = findViewById(R.id.btnConnect);
         discoverBTN = findViewById(R.id.btnStartDiscover);
@@ -79,6 +88,11 @@ public class ConnectBT extends AppCompatActivity {
         pairedDevicesLV = findViewById(R.id.pairedDeviceLV);
         searchStatusTV = findViewById(R.id.searchStatID);
         pairedDeviceTV = findViewById(R.id.pairedDeviceTV);
+        connectingBtProgressBar = findViewById(R.id.connectingBtProgressBar);
+        connectingBtProgressBar.setVisibility(View.INVISIBLE);
+        overlay = findViewById(R.id.overlay);
+        overlay.setVisibility(View.INVISIBLE);
+
         incomingMessageSB = new StringBuilder();
         btDevice = null;
 
@@ -117,6 +131,7 @@ public class ConnectBT extends AppCompatActivity {
         // Register receiver for incoming message
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, new IntentFilter("IncomingMsg"));
 
+
         pairedDevicesLV.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
@@ -133,7 +148,7 @@ public class ConnectBT extends AppCompatActivity {
                         searchStatusTV.setText("");
 
                         Log.d(TAG, "Paired Device = " + pairedBluetoothDevicesArrayList.get(i).getName());
-                        Log.d(TAG, "DeviceAddress = " + pairedBluetoothDevicesArrayList.get(i).getAddress());
+                        //Log.d(TAG, "DeviceAddress = " + pairedBluetoothDevicesArrayList.get(i).getAddress());
 
                     }
                 }
@@ -150,14 +165,14 @@ public class ConnectBT extends AppCompatActivity {
                         Log.d(TAG, "onItemClick: Item Selected");
 
                         String deviceName = bluetoothDevicesArrayList.get(i).getName();
-                        String deviceAddress = bluetoothDevicesArrayList.get(i).getAddress();
+                        //String deviceAddress = bluetoothDevicesArrayList.get(i).getAddress();
 
                         //UnSelect Paired Device List
                         pairedDevicesLV.setAdapter(pairedDeviceListAdapter);
 
 
                         Log.d(TAG, "Device Name = " + deviceName);
-                        Log.d(TAG, "Device Address = " + deviceAddress);
+                        //Log.d(TAG, "Device Address = " + deviceAddress);
 
                         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
                             Log.d(TAG, "Trying to pair with: " + deviceName);
@@ -176,6 +191,10 @@ public class ConnectBT extends AppCompatActivity {
 
         discoverBTN.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                connectingBtProgressBar.setVisibility(View.VISIBLE);
+                connectingBtProgressBar.bringToFront();
+                overlay.setVisibility(View.VISIBLE);
+                overlay.bringToFront();
                 enableBT();
                 bluetoothDevicesArrayList.clear();
             }
@@ -255,14 +274,20 @@ Broadcast Receiver to enable discovery of devices
                     case BluetoothAdapter.SCAN_MODE_CONNECTABLE_DISCOVERABLE:
                         Log.d(TAG, "OnReceiver: DISCOVERABILITY ENABLED");
 
+                        //check paired have pico connection before
+//                        if(connectPairedDevice()){
+//                            return;
+//                        }
+
                         // start discover devices
                         startDiscover();
 
-                        // Start bluetooth connection service -> start accept thread for coonection
+                        // Start bluetooth connection service -> start accept thread for connection
                         strtconnectServiceIntent = new Intent(ConnectBT.this, BTConnectionService.class);
                         strtconnectServiceIntent.putExtra("serviceType", "listen");
                         startService(strtconnectServiceIntent);
 
+                        //original
                         chkPairedDevice();
                         break;
 
@@ -326,9 +351,11 @@ Broadcast Receiver to enable discovery of devices
     BroadcastReceiver btConnectionStatusReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+            connectingBtProgressBar.setVisibility(View.INVISIBLE);
+            overlay.setVisibility(View.INVISIBLE);
+
 
             Log.d(TAG, "Receiving btConnectionStatus Msg!!!");
-
             String connectionStatus = intent.getStringExtra("ConnectionStatus");
             btConnectToDevice = intent.getParcelableExtra("Device");
 
@@ -367,12 +394,15 @@ Broadcast Receiver to enable discovery of devices
 
             //SUCCESSFULLY CONNECTED TO BLUETOOTH DEVICE
             else if (connectionStatus.equals("connect")) {
-
-
                 Log.d("ConnectAcitvity:", "Device Connected");
                 Toast.makeText(ConnectBT.this, "Connected to " + btConnectToDevice.getName(),
                         Toast.LENGTH_SHORT).show();
                 pairedDeviceTV.setText(btConnectToDevice.getName());
+
+                //sync device values app and picoW
+                String str = "syncDevices";
+                BluetoothCommunication.writeMsg(str.getBytes(Charset.defaultCharset()));
+
             }
 
             //BLUETOOTH CONNECTION FAILED
@@ -402,9 +432,49 @@ Broadcast Receiver to enable discovery of devices
                         bluetoothDevicesArrayList.add(device);
                     }
                 }
+
+
                 Log.d(TAG, "OnReceive: " + device.getName() + ": " + device.getAddress());
                 deviceListAdapter = new DeviceListAdapter(context, R.layout.device_adapter_view, bluetoothDevicesArrayList);
                 newDevicesLV.setAdapter(deviceListAdapter);
+
+
+
+                //discovered picoW
+                if(device.getName()!= null && device.getName().contains("PicoW")){
+                    Toast.makeText(ConnectBT.this, "PicoW found: " + device.getName(),
+                            Toast.LENGTH_SHORT).show();
+
+                    //not first time
+                    if(pairedBluetoothDevicesArrayList.contains(device)){
+                        Toast.makeText(ConnectBT.this, "PicoW connected before: " + device.getName(),
+                                Toast.LENGTH_SHORT).show();
+
+                        btDevice = device;
+                        startBTConnection(btDevice, mdpUUID);
+                    }
+                    else{
+                        //first time
+                        //CANCEL DEVICE SEARCH DISCOVERY
+                        Toast.makeText(ConnectBT.this, "PicoW connected first time: " + device.getName(),
+                                Toast.LENGTH_SHORT).show();
+                        btAdapter.cancelDiscovery();
+
+                        String deviceName = device.getName() ;
+                        //String deviceAddress = bluetoothDevicesArrayList.get(i).getAddress();
+                        //UnSelect Paired Device List
+                        pairedDevicesLV.setAdapter(pairedDeviceListAdapter);
+
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                            Log.d(TAG, "Trying to pair with: " + deviceName);
+
+                            // create bond
+                            device.createBond();
+
+                        }
+                    }
+
+                }
 
             }
         }
@@ -416,6 +486,8 @@ Broadcast Receiver to enable discovery of devices
     */
     private final BroadcastReceiver bondBroadcastReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
+            connectingBtProgressBar.setVisibility(View.INVISIBLE);
+            overlay.setVisibility(View.INVISIBLE);
             final String action = intent.getAction();
 
             if (action.equals(BluetoothDevice.ACTION_BOND_STATE_CHANGED)) {
@@ -432,8 +504,9 @@ Broadcast Receiver to enable discovery of devices
                     Toast.makeText(ConnectBT.this, "Bonded successfully with: " + device.getName(),
                             Toast.LENGTH_SHORT).show();
                     btDevice = device;
-                    chkPairedDevice();
-                    newDevicesLV.setAdapter(deviceListAdapter);
+                    startBTConnection(btDevice, mdpUUID);
+                    //chkPairedDevice();
+                    //newDevicesLV.setAdapter(deviceListAdapter);
 
                 }
                 // bond w device
@@ -477,20 +550,33 @@ Broadcast Receiver to enable discovery of devices
     BroadcastReceiver messageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-
             Log.d(TAG, "Receiving Msg...");
-            try{
-                String msg = intent.getStringExtra("receivingMsg");
-                incomingMessageSB.append(msg + "\n");
-                //incomingMessageTV.setText(incomingMessageSB);
-                Toast.makeText(ConnectBT.this, msg,
-                        Toast.LENGTH_SHORT).show();
-            }
-            catch (Exception e){
-                Toast.makeText(ConnectBT.this, "Test connection failed.",
-                        Toast.LENGTH_SHORT).show();
-            }
+            //depending on the message, decode action an values to do
+            String pico_message = intent.getStringExtra("receivingMsg");
+            assert pico_message != null;
+            List<String> pico_message_parts_array = myGlobals.decode_pico_message(pico_message);
+            String functionName = pico_message_parts_array.get(0);
+            // dummy action to test message send and reply
+            if(Objects.equals(functionName, "Action1")){
+                //... testing logic
 
+            } else if (Objects.equals(functionName, "syncDevices")) {
+                myGlobals.focus_range = Integer.parseInt(pico_message_parts_array.get(1));
+                myGlobals.zoom_range = Integer.parseInt(pico_message_parts_array.get(2));
+                myGlobals.focus_current = Integer.parseInt(pico_message_parts_array.get(3));
+                myGlobals.zoom_current = Integer.parseInt(pico_message_parts_array.get(4));
+                myGlobals.orientation = Integer.parseInt(pico_message_parts_array.get(5));
+                myGlobals.shutter_time =  Integer.parseInt(pico_message_parts_array.get(6));
+                myGlobals.max_shutter_time =  Integer.parseInt(pico_message_parts_array.get(7));
+                myGlobals.motor_time =  Integer.parseInt(pico_message_parts_array.get(8));
+                myGlobals.max_motor_time =  Integer.parseInt(pico_message_parts_array.get(9));
+                myGlobals.excess_option_set =  Integer.parseInt(pico_message_parts_array.get(10));
+                myGlobals.rear_rotation_direction = Integer.parseInt(pico_message_parts_array.get(11));
+                myGlobals.front_rotation_direction =  Integer.parseInt(pico_message_parts_array.get(12));
+                myGlobals.MOTOR_STEPS = Integer.parseInt(pico_message_parts_array.get(13));
+                Toast.makeText(ConnectBT.this, "Synced Successful!-auto",
+                        Toast.LENGTH_SHORT).show();
+            }
         }
     };
 
@@ -591,14 +677,12 @@ Broadcast Receiver to enable discovery of devices
 
     }
 
-
     public void chkPairedDevice() {
 
         Set<BluetoothDevice> pairedDevices = btAdapter.getBondedDevices();
         pairedBluetoothDevicesArrayList.clear();
 
         if (pairedDevices.size() > 0) {
-
             for (BluetoothDevice device : pairedDevices) {
                 Log.d(TAG, "Paired devices: " + device.getName() + "," + device.getAddress());
                 pairedBluetoothDevicesArrayList.add(device);

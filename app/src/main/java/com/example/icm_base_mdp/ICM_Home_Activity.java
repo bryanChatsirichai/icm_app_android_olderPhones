@@ -71,7 +71,6 @@ public class ICM_Home_Activity extends AppCompatActivity {
     private void init () {
         myGlobals = MyGlobals.getInstance();
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        int initial_action_value = myGlobals.global_number;
         camera_config_button = findViewById(R.id.camera_config_button);
         camera_simple_actions_button = findViewById(R.id.camera_simple_actions_button);
         camera_preset_actions_button = findViewById(R.id.camera_preset_actions_button);
@@ -92,10 +91,7 @@ public class ICM_Home_Activity extends AppCompatActivity {
             String functionName = pico_message_parts_array.get(0);
             // dummy action to test message send and reply
             if(Objects.equals(functionName, "Action1")){
-                //int value = myGlobals.global_number + 1;
-                //myGlobals.global_number = value;
-                //Toast.makeText(ICM_Home_Activity.this, "value " + value,
-                        //Toast.LENGTH_SHORT).show();
+                //... testing logic
 
             } else if (Objects.equals(functionName, "syncDevices")) {
                 myGlobals.focus_range = Integer.parseInt(pico_message_parts_array.get(1));
@@ -111,7 +107,7 @@ public class ICM_Home_Activity extends AppCompatActivity {
                 myGlobals.rear_rotation_direction = Integer.parseInt(pico_message_parts_array.get(11));
                 myGlobals.front_rotation_direction =  Integer.parseInt(pico_message_parts_array.get(12));
                 myGlobals.MOTOR_STEPS = Integer.parseInt(pico_message_parts_array.get(13));
-                Toast.makeText(ICM_Home_Activity.this, "Synced Successful!",
+                Toast.makeText(ICM_Home_Activity.this, "Synced Successful!-manual",
                         Toast.LENGTH_SHORT).show();
             }
         }

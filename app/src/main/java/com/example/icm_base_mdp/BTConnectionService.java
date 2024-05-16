@@ -18,7 +18,7 @@ import java.util.UUID;
 public class BTConnectionService extends IntentService {
 
     private static final String TAG = "BTConnectionService";
-    private static final String appName = "MDP Group 33";
+    private static final String appName = "icm";
 
     //UUID
     private static final UUID mdpUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
